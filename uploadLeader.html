@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Leaderboard</title>
+    <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore-compat.js"></script>
+    
+    <style> 
+    
+        .center-align {text-align: center;}
+        .navbar {
+        background-color: rgb(243, 171, 246);
+        overflow: hidden;
+        height: 70px;
+        }
+    .navbar a {
+        float: left;
+        display: block;
+        color: black;
+        text-align: center;
+        padding: 25px 25px;
+        text-decoration: none;
+        font-size: 20px;
+    }
+    .navbar a.right {
+        float: right;
+    }  
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    body {
+    font-family: Georgia, sans-serif;
+    text-align: center;
+    }
+
+form {
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+h2 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="text"],
+input[type="text"],
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: #77b1ef;
+}
+    </style>
+    
+</head>
+<body class = "center-align">
+    <div class="navbar">
+        <a href="index.html">Up2Date</a>
+        <a href="#" class="right">Profile</a>
+        <a href="leaderboarddisplay.html" class="right">Leaderboard</a>
+        <a href="uploadLeader.html" class="right">Upload</a>
+        <a href="eventpg.html" class="right">Events</a>
+    </div>
+    <div style = "background-color: rgb(172, 209, 241); height: 700px; padding: 10px;">
+    <h1 style = "font-size: 50px;">Upload Leaderboard</style></h1>
+    <div class="container" style = "background-color: rgb(255, 255, 255);">
+    <form name="leaderboard" id="leaderboard-list", class = "center-align">
+        <label for="Event">Event Name:</label>
+        <input type="text" id="Event" name="Event" required><br><br>
+
+        <label for="first">Winner:</label>
+        <input type="text" id="first" name="first" required><br><br>
+
+        <label for="second">First Runner-Up:</label>
+        <input type="text" id="second" name="second" required><br><br>
+
+        <label for="second">Second Runner-Up:</label>
+        <input type="text" id="third" name="third" required><br><br>
+
+        <input type="submit" value="Upload" id="">
+    </form>
+    </div>
+    </div>
+    <script>
+    
+    
+        const firebaseConfig = {
+        apiKey: "AIzaSyCUX1vsNu-2Yp_BN35qNkEsfYDYWSLVzC4",
+        authDomain: "sol-51bec.firebaseapp.com",
+        projectId: "sol-51bec",
+        storageBucket: "sol-51bec.appspot.com",
+        messagingSenderId: "870973511731",
+        appId: "1:870973511731:web:1e9ff1541b46c9d58e2b46",
+        measurementId: "G-9D5HCQ7L2L"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const firestore = firebase.firestore();
+      const leaderboardRef = firestore.collection('leaderboard');
+
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('leaderboard-list').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const Event = document.getElementById('Event').value;
+            const first = document.getElementById('first').value;
+            const second = document.getElementById('second').value;
+            const third = document.getElementById('third').value;
+            if (Event && first && second && third) {
+
+            leaderboardRef.add({
+                Event: Event,
+                first: first,
+                second: second,
+                third: third,
+            }).then(() => {
+                console.log('Leaderboard Uploaded Successfully.');
+            
+                document.getElementById('leaderboard-list').reset();
+            }).catch((error) => {
+                console.error('Error adding event:', error);
+            });
+            } else {
+            alert('Please Fill In All Fields.');
+            }
+        });
+        });
+
+</script>
+    
+</body>
+</html>
